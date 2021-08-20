@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CrearConexionController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Hello {{ controller_name }}! ✅</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Alias</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Borrar</th>
+                    <th scope="col">Editar Alias</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for con in conexiones %}
+                    <tr>
+                        <td>
+               <a href="{{path('estadisticas_conexion',{conexion: con.nombre})}}" class="btn btn-ligth" type="submit" >
+                        {{con.alias}}</a>
+                </td>
+                <td>
+                    {{con.tipo}}
+                </td>
+                <td>
+                    <a href="{{path('borrar_conexion',{conexion: con.nombre})}}" class="btn btn-primary" type="submit" >
+                        Borrar</a>
+                </td>
+                <td>
+                    <form method="post" class="row g-3" action="{{path('editar_alias', {nombre: con.nombre})}}" >
+                        <div class="col-auto">
+                            <label for="user" class="visually-hidden">Nombre</label>
+                            <input type="text" name="user">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary mb-3">Editar</button>
+                        </div>
+                    </form>
+                </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="form-group"><a href="{{ path('crear_onedrive') }}" class="btn btn-primary btn-lg" type="submit" style="background-color: rgb(255,255,255);color: rgb(0,98,204);">Onedrive</a></div>
+        <div class="form-group"><a href="{{ path('crear_drive') }}" class="btn btn-primary btn-lg" type="submit" style="background-color: rgb(255,255,255);color: rgb(0,98,204);">Drive</a></div>
+
+        <!-- Mostramos los dispositivos disponibles a traves de la busqueda de servicios y permitimos la introduccion de las 
+        credenciales de acceso-->
+        <h1>Dispositivos encontrados</h1>
+        {% for key, value in sftp %}
+            <form method="post" class="row g-3" action="{{path('crear_sftp')}}" >
+                <h3>IP:{{value.IP}}</h3>
+                <h3>Nombre:{{value.DESCRIPTION.friendlyName}}</h3>
+                <div class="col-auto">
+                    <label for="user" class="visually-hidden">Usuario</label>
+                    <input type="hidden" name="IP" value="{{value.IP}}">
+                    <input type="hidden" name="SERVER" value="{{value.SERVER}}">
+                    <input type="text" name="user">
+                </div>
+                <div class="col-auto">
+                    <label for="password" class="visually-hidden">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Agregar</button>
+                </div>
+            </form>
+        {% endfor %}
+    </div>
+{%endblock%}

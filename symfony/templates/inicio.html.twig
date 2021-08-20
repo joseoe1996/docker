@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello InicioController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+     <div class="form-group"><a href="{{ path('lista_archivos') }}" class="btn btn-primary btn-lg"" type="submit" style="background-color: rgb(255,255,255);color: rgb(0,98,204);">Lista</a></div>
+     <div class="form-group"><a href="{{ path('lista_conexion') }}" class="btn btn-primary btn-lg" type="submit" style="background-color: rgb(255,255,255);color: rgb(0,98,204);">Crear Conexion</a></div>
+	<div class="form-group"><a href="{{ path('upload') }}" class="btn btn-primary btn-lg" type="submit" style="background-color: rgb(255,255,255);color: rgb(0,98,204);">Subir archivo</a></div>
+   
+
+    
+</div>
+{% endblock %}

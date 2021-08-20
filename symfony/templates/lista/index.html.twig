@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ListaController!{% endblock %}
+
+
+{%block navbar %}
+
+    {% if lista|length > 1 %}
+        {% set conexion = "" %}
+        {% set ruta = "" %}
+        {% set nombre = "" %}
+    {% else %}
+        {% set conexion = lista|keys[0] %}
+        {% set tipo = lista|keys[0] %}
+
+        {% if lista[conexion]['carpetas']|keys|length == 0 %}
+            {% set nombre = lista[conexion]['archivos']|keys[0] %}
+            {% set ruta = lista[conexion]['archivos']|first|split('/',-1)|join('/')%}
+        {% else %}
+            {% set nombre = lista[conexion]['carpetas']|keys[0] %}
+            {% set ruta = lista[conexion]['carpetas']|first|split('/',-1)|join('/')%}
+        {% endif %}
+    {% endif %}
+   
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{path('lista_archivos')}}">Listado</a>
+        <a class="navbar-brand" href="{{path('upload')}}">Subir</a>
+        <a class="navbar-brand" href="{{path('lista_conexion')}}">Conexiones</a>
+        <a class="navbar-brand" href="{{path('app_logout')}}">Log Out</a>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <form class="form-inline" method="post" action="{{path('lista_archivos',{ruta: ruta, conexion: conexion})}}" >
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="busqueda">
+                            </td>
+                            <td>  
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </nav>
+{%endblock%}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    {% set numColum = 5 %}
+    <div class="example-wrapper">
+        <h1>Hello {{ controller_name }}! ✅</h1>
+        {% for name, asociados in lista %}
+            <h2>{{ alias[name]}}</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Carpetas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipo, carpetas in asociados %}
+                        {% if tipo=='carpetas' %}
+                            {% for nombre_carpeta, path in carpetas %}
+                                {% if loop.index0 % numColum == 0%}
+                                    <tr>
+                                    {%endif%}
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    {{nombre_carpeta}}
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><a class="dropdown-item" href="{{path('lista_archivos',{ruta: path, conexion: name})}}">Acceso</a></li>
+                                                    <li><a class="dropdown-item" href="{{path('borrar_carpeta',{ruta: path, conexion: name})}}">Borrar</a></li>                                            
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                    {% if loop.index % numColum == 0%}
+                                    </tr>
+                                {%endif%}
+
+                            {% endfor %} 
+                        {% endif %}
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Archivos</th>                      
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tipo, archivos in asociados %}
+                        {% if tipo == 'archivos' %}
+                            {% for nombre_archivos, path in archivos %}
+                                {% if loop.index0 % numColum == 0%}
+                                    <tr>
+                                    {%endif%}
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                {{nombre_archivos}}
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" href="{{path('bajar',{ruta: path, conexion: name})}}">Descargar</a></li>
+                                                <li><a class="dropdown-item" href="{{path('borrar_archivo',{ruta: path, conexion: name})}}">Borrar</a></li>                                            
+                                            </ul>
+                                        </div>
+                                    </td>                          
+                                    {% if loop.index % numColum == 0%}
+                                    </tr>
+                                {%endif%}
+                            {% endfor %} 
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
+{% endblock %}

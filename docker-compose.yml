@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+    db:
+        image: mysql:8.0.20
+        command: --default-authentication-plugin=mysql_native_password
+        container_name: mysql
+        volumes:
+            - "db_app:/var/lib/mysql"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - 3306:3306
+        networks:
+            - symfony
+    php:
+        container_name: php
+        build:
+            context: .
+            dockerfile: build/php/Dockerfile
+            args:
+                TIMEZONE: ${TIMEZONE}
+        volumes:
+            - ./symfony/:/var/www/symfony/
+            - ./drive/:/var/www/drive/
+            - ./onedrive/:/var/www/onedrive/
+            - ./rclone/archivos/:/var/www/symfony/public/uploads/
+        networks:
+            - symfony
+    nginx:
+        container_name: nginx
+        build:
+            context: .
+            dockerfile: build/nginx/Dockerfile
+        volumes:
+            - ./symfony/:/var/www/symfony/
+        ports:
+            - 8080:80
+        networks:
+            - symfony
+    rclone:
+        container_name: rclone
+        image: rclone/rclone
+        restart: always
+        command: rcd --rc-serve --rc-addr :5572 --rc-user jose --rc-pass jose
+        ports:
+            - 5572:5572
+        volumes:
+            - ./rclone:/config/rclone
+            - ./rclone:/logs
+            - ./rclone/archivos:/home
+        environment:
+            - PHP_TZ=Europe/London
+            - PUID=1000
+            - PGID=1000
+        networks:
+            - symfony
+    symfony_ssdp:
+        container_name: ssdp
+        image: 'bitnami/symfony:1'
+        ports:
+          - '8000:8000'
+        volumes:
+          - './ssdp:/app'
+        network_mode: "host"
+volumes:
+    db_app:
+
+networks:
+    symfony:
+

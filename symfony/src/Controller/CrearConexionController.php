@@ -9,6 +9,7 @@ use App\Service\httpClient;
 use App\Repository\ConexionesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\BD;
+use App\Service\Varios;
 
 const SERVER_MOVIL = "CyverLinkJava";
 const SERVER_ORDE = "DLNADOC";
@@ -18,7 +19,7 @@ class CrearConexionController extends AbstractController {
     /**
      * @Route("/inicio/lista_conexion", name="lista_conexion")
      */
-    public function index(ConexionesRepository $con, httpClient $client): Response {
+    public function index(ConexionesRepository $con, httpClient $client, Varios $varios): Response {
 
         $userlog = $this->getUser()->getId();
 
@@ -38,11 +39,14 @@ class CrearConexionController extends AbstractController {
         $disponibles = [$movil, $ordenador];
         //Comporar con las que ya esten en la BD
         //$interseccion = $disponibles - $conexiones;
-		
+	
+        $final=$varios->filtrado($disponibles,$criteria,$con);
+                
+        
         return $this->render('crear_conexion/index.html.twig', [
                     'controller_name' => 'CrearConexionController',
                     'conexiones' => $conexiones,
-                    'sftp' => $disponibles
+                    'sftp' => $final
         ]);
     }
 
@@ -77,14 +81,14 @@ class CrearConexionController extends AbstractController {
         $IP = $request->get('IP');
         $server = $request->get('SERVER');
 
-        if (preg_match('*' . strtolower($server) . '*', strtolower(SERVER_ORDE))) {
-            $tipo = 'sftp_orde';
-            $name = preg_replace('[\.]', '_', $IP);
-        } else {
+        if (preg_match('*' . strtolower($server) . '*', strtolower(SERVER_MOVIL))) {
             $tipo = 'sftp_movil';
             $name = preg_replace('[\.]', '_', $IP);
             $client->alias($name . '_alias', $name . ':/storage/emulated/0');
             $name .= '_alias';
+        } else {
+            $tipo = 'sftp_orde';
+            $name = preg_replace('[\.]', '_', $IP);
         }
 
         $client->sftp($IP, $usuario, $pas);

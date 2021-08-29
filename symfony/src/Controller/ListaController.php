@@ -8,13 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Service\httpClient;
 use App\Repository\ConexionesRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Service\Varios;
 
 class ListaController extends AbstractController {
 
     /**
      * @Route("/inicio/lista/{conexion}/{ruta}", name="lista_archivos", requirements={"ruta"=".+"})
      */
-    public function index(httpClient $cliente, ConexionesRepository $conerepo, Request $request, string $ruta = "", string $conexion = ""): Response {
+    public function index(httpClient $cliente, ConexionesRepository $conerepo, Request $request, Varios $varios, string $ruta = "", string $conexion = ""): Response {
 
         $userlog = $this->getUser()->getId();
         $busqueda = $request->get('busqueda');
@@ -41,7 +42,7 @@ class ListaController extends AbstractController {
         }
 
         if (!empty($busqueda)) {
-            $lista2 = $cliente->busqueda($busqueda, $lista);
+            $lista2 = $varios->busqueda($busqueda, $lista);
             $lista = $lista2;
             if (empty($lista)) {
                 return $this->render('noEncontrado.html.twig', [

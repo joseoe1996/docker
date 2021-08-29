@@ -79,14 +79,3 @@ class driveToken {
     }
 
 }
-
-/*
-session_start(); // Remove if session.auto_start=1 in php.ini
-$clientId="781706809433-72mlv36j56io07ie5khrkajo9hhul66v.apps.googleusercontent.com";
-$secreto="aOaOmYxh64wYsLLf-1f0yfhg";
-$uri="http://localhost/drive/driveToken.php";
-$objeto=new driveToken($clientId, $secreto, $uri);
-$token=$objeto->getToken();
-echo $objeto->token($token);
-
-*/

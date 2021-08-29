@@ -116,19 +116,3 @@ class onedriveToken {
     }
 
 }
-
-/*
-  session_start();
-
-  $client_id = '088e81a1-5274-44dd-bae8-fe657686b19f';
-  $client_secret = 'Ag4.cX~HE-x27aLO8W.9a~rZ77e_iqR3H_';
-
-  $redirect_uri = 'http://localhost:5572/inicio/crear_conexion';
-
-  $objeto = new onedriveToken($client_id, $client_secret, $redirect_uri);
-  $token = $objeto->obtenerToken();
-  echo $objeto->token($token) . "<br>";
-  echo $objeto->getId() . "<br>";
-  // print_r($objeto->provider->scope) ;
- */
-?>

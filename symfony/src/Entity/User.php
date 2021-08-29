@@ -44,9 +44,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $conexiones;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Historial::class, mappedBy="user")
+     */
+    private $historial;
+
     public function __construct()
     {
         $this->conexiones = new ArrayCollection();
+        $this->historial = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,4 +165,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Historial[]
+     */
+    public function getHistorial(): Collection
+    {
+        return $this->historial;
+    }
+
+    public function addHistorial(Historial $historial): self
+    {
+        if (!$this->historial->contains($historial)) {
+            $this->historial[] = $historial;
+            $historial->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorial(Historial $historial): self
+    {
+        if ($this->historial->removeElement($historial)) {
+            // set the owning side to null (unless already changed)
+            if ($historial->getUser() === $this) {
+                $historial->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Repository\ConexionesRepository;
 use App\Service\politicas;
+use App\Service\BD;
 
 class UploadController extends AbstractController {
 
@@ -45,8 +46,9 @@ class UploadController extends AbstractController {
         $destino = $con->findBy($criteria2)[0]->getNombre();
 
         $nombreFichero = $uploader->upload($archivo);
-        $origen = $nombreFichero;
-       
+        // $origen = $nombreFichero
+        $origen = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreFichero;
+
         $response = $client->copiar_subir($origen, $destino, $nombreFichero);
 
         if ($response->getStatusCode() == 200) {
@@ -54,35 +56,44 @@ class UploadController extends AbstractController {
             $filesystem->remove($uploader->getTargetDirectory() . $nombreFichero);
         }
 
+        $BD = new BD($this->getDoctrine()->getManager());
+        $BD->C_historial($nombreFichero, $alias, 'subida', new \DateTime(), $this->getUser());
+
         return $this->redirectToRoute('lista_archivos');
     }
 
-     /**
+    /**
      * @Route("/inicio/subir_politica", name="subir_politica")
      */
     public function subir_politica(Request $request, FileUploader $uploader) {
 
         $archivo = $request->files->get('formFile');
-        
+
         $userlog = $this->getUser()->getId();
 
         $uploader->upload_politica($archivo, $userlog);
-      
+
         return $this->redirectToRoute('upload');
     }
-    
+
     /**
      * @Route("/inicio/bajar/{conexion}/{ruta}", name="bajar", requirements={"ruta"=".+"})
      */
-    public function bajar(FileUploader $uploader, httpClient $client, $ruta, $conexion) {
+    public function bajar(FileUploader $uploader, httpClient $client, $ruta, $conexion, ConexionesRepository $con) {
 
         $archivo = preg_split("[/]", $ruta);
         $nombreArchivo = array_pop($archivo);
-        $file =$nombreArchivo;
+        //$file = $nombreArchivo;
+        $file = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreArchivo;
         $client->copiar_bajar($conexion, $file, $ruta);
-		
-        $destino = $uploader->getTargetDirectory() . $nombreArchivo;
 
+        $criteria = ['nombre' => $conexion];
+        $alias = $con->findBy($criteria)[0]->getAlias();
+        $BD = new BD($this->getDoctrine()->getManager());
+        $BD->C_historial($nombreArchivo, $alias, 'bajada', new \DateTime(), $this->getUser());
+
+        $destino = $uploader->getTargetDirectory() . $nombreArchivo;
+        
         $response = new BinaryFileResponse($destino);
 
         $disposition = HeaderUtils::makeDisposition(

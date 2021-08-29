@@ -25,7 +25,7 @@ class politicas {
         $max = 0;
         $eleccion = "";
         foreach ($conexiones as $conexion) {
-            $actual = $this->client->about($conexion->getNombre())['free'];
+            $actual = json_decode($this->client->about($conexion->getNombre()))->free;
             if ($actual > $max) {
                 $max = $actual;
                 $eleccion = $conexion->getAlias();
@@ -50,7 +50,7 @@ class politicas {
 
     public function EleccionPolitica(int $id, $file, $conexiones, $id_user) {
 
-        $tipo = $this->politica_fichero->Politica_id($id.$id_user)['Tipo'];
+        $tipo = $this->politica_fichero->Politica_id($id,$id_user)['Tipo'];
         $arg = $this->politica_fichero->Politica_id($id,$id_user)['Args'];
         $Destino = $this->politica_fichero->Politica_id($id,$id_user)['Destino'];   
         

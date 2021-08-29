@@ -10,8 +10,49 @@
 
     <div class="example-wrapper">
         <h1>Hello {{ controller_name }}! ✅</h1>
-        {{conexion}}
-        {{about}}
+        <h2>Uso del espacio en MB</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Libre</th>
+                    <th scope="col">Otro</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Basura</th>
+                    <th scope="col">Usado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{about.free}}</td>
+                    <td>{{about.other}}</td>
+                    <td>{{about.total}}</td>
+                    <td>{{about.trashed}}</td>
+                    <td>{{about.used}}</td>
+                </tr>
 
+            </tbody>
+        </table>
+
+        <h2>Historial</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Archivo</th>
+                    <th scope="col">Ubicacion</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hist in historial %}
+                    <tr>
+                        <td>{{hist.nombre}}</td>
+                        <td>{{hist.ubicacion}}</td>
+                        <td>{{hist.tipo}}</td>
+                        <td>{{hist.fecha|date("l, d-M-Y H:i:s")}}</td>
+                    </tr>
+                {%endfor%}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

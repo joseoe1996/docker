@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Conexiones;
+use App\Entity\Historial;
 
 class BD {
 
@@ -45,6 +46,24 @@ class BD {
         $conexion->setAlias($alias);
         try {
             $this->em->persist($conexion);
+            $this->em->flush();
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw $e;
+        }
+    }
+    
+    public function C_historial(string $nombre, string $ubicacion, string $tipo, \DateTime $fecha, $user) {
+        
+        $historial = new Historial();
+        $historial->setNombre($nombre);
+        $historial->setUbicacion($ubicacion);
+        $historial->setTipo($tipo);
+        $historial->setFecha($fecha);
+        $historial->setUser($user);
+        //Base de datos
+        try {
+            $this->em->persist($historial);
             $this->em->flush();
         } catch (\Exception $e) {
             $this->em->rollback();

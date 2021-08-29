@@ -16,6 +16,7 @@ const CLIENT_ID_ONEDRIVE = '088e81a1-5274-44dd-bae8-fe657686b19f';
 const SECRETO_ONEDRIVE = 'Ag4.cX~HE-x27aLO8W.9a~rZ77e_iqR3H_';
 const CLIENTE_ID_DRIVE = '673961889608-7bhejsqnglluor9prgrb03e13g3s18mg.apps.googleusercontent.com';
 const SECRETO_DRIVE = 'tzXjmMQkz1qZ90FNNDtl2XKy';
+const IP_PROYECTO_SSPD='192.168.0.108:8000';
 
 class httpClient {
 
@@ -35,7 +36,7 @@ class httpClient {
     }
 
     public function sspd() {
-        $response = $this->client->request('POST', 'http://' . '192.168.0.108:8000');
+        $response = $this->client->request('POST', 'http://' . IP_PROYECTO_SSPD);
         return $response->toArray();
     }
 
@@ -186,7 +187,7 @@ class httpClient {
         $operacion = '/operations/about';
         $parametros = ['fs' => $conexion . ':'];
         $reponse = $this->POST($parametros, $operacion);
-        return $reponse->toArray();
+        return $reponse->getContent();
     }
 
     public function info_remote(string $conexion) {

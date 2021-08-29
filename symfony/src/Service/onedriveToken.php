@@ -2,7 +2,8 @@
 
 namespace App\Service;
 
-require '/var/www/onedrive/vendor/autoload.php';
+//require '/var/www/onedrive/vendor/autoload.php';
+require 'C:\xampp\htdocs\onedrive\vendor\autoload.php';
 
 use TheNetworg\OAuth2\Client\Provider as Provider;
 use Symfony\Component\HttpFoundation\RedirectResponse;

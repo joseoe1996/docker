@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Service\httpClient;
 use App\Repository\ConexionesRepository;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\phpSSDP;
 use App\Service\BD;
 
 const SERVER_MOVIL = "CyverLinkJava";
@@ -27,7 +26,7 @@ class CrearConexionController extends AbstractController {
         $criteria = ['user' => $userlog];
         $conexiones = $con->findBy($criteria);
         //Listar conexiones SFTP disponibles
-        $disponibles2 = $client->sspd();
+        //$disponibles2 = $client->sspd();
         
         //var_dump($disponibles2);
         //return new Response();
@@ -43,7 +42,7 @@ class CrearConexionController extends AbstractController {
         return $this->render('crear_conexion/index.html.twig', [
                     'controller_name' => 'CrearConexionController',
                     'conexiones' => $conexiones,
-                    'sftp' => $disponibles2
+                    'sftp' => $disponibles
         ]);
     }
 

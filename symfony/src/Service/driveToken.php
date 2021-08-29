@@ -2,7 +2,8 @@
 
 namespace App\Service;
 
-require '/var/www/drive/vendor/autoload.php';
+//require '/var/www/drive/vendor/autoload.php';
+require 'C:\xampp\htdocs\drive\vendor\autoload.php';
 
 use League\OAuth2\Client\Provider\Google;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -15,7 +16,7 @@ class driveToken {
         $this->provider = new Google([
             'clientId' => "673961889608-7bhejsqnglluor9prgrb03e13g3s18mg.apps.googleusercontent.com",
             'clientSecret' => "tzXjmMQkz1qZ90FNNDtl2XKy",
-            'redirectUri' => "http://localhost:8001/inicio/lista_conexion/crear_drive",
+            'redirectUri' => "http://localhost:8000/inicio/lista_conexion/crear_drive",
         ]);
     }
 

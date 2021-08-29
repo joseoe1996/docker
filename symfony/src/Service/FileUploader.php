@@ -32,6 +32,19 @@ class FileUploader {
         return $fileName;
     }
 
+    public function upload_politica(UploadedFile $file, int $id) {
+
+        $fileName = $id . '_politicas.json';
+
+        try {
+            $file->move($this->dirPoliticas, $fileName);
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+
+        return $fileName;
+    }
+
     public function extension(UploadedFile $file, string $extension) {
         $arch_extension = $file->guessExtension();
         if ($arch_extension == $extension) {
@@ -77,20 +90,25 @@ class FileUploader {
         return $this->targetDirectory;
     }
 
-    public function ListaPoliticas() {
-        $nombre = 'politicas.json';
-        $politicas = new UploadedFile($this->dirPoliticas . $nombre, $nombre);
-        $json = json_decode($politicas->getContent());
-        return (array) $json->politicas->id;
+    public function ListaPoliticas(int $id_user) {
+        $nombre = $id_user . '_politicas.json';
+        try {
+            $politicas = new UploadedFile($this->dirPoliticas . $nombre, $nombre);
+            $json = json_decode($politicas->getContent());
+            return (array) $json->politicas->id;
+        } catch (\Exception $exc) {
+            return [];
+        }
     }
 
-    public function Politica_id(int $id) {
-        $nombre = 'politicas.json';
-        $politicas = new UploadedFile($this->dirPoliticas . $nombre, $nombre);
-        $json = json_decode($politicas->getContent());
+    public function Politica_id(int $id, int $id_user) {
+
         if ($id == 0) {
             return ['Tipo' => '', 'Args' => '', 'Destino' => ''];
         }
+        $nombre = $id_user . 'politicas.json';
+        $politicas = new UploadedFile($this->dirPoliticas . $nombre, $nombre);
+        $json = json_decode($politicas->getContent());
         return ['Tipo' => $json->politicas->id->{$id}->Tipo,
             'Args' => $json->politicas->id->{$id}->Args,
             'Destino' => $json->politicas->id->{$id}->Destino];

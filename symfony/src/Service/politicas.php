@@ -48,11 +48,11 @@ class politicas {
         return $eleccion;
     }
 
-    public function EleccionPolitica(int $id, $file, $conexiones) {
+    public function EleccionPolitica(int $id, $file, $conexiones, $id_user) {
 
-        $tipo = $this->politica_fichero->Politica_id($id)['Tipo'];
-        $arg = $this->politica_fichero->Politica_id($id)['Args'];
-        $Destino = $this->politica_fichero->Politica_id($id)['Destino'];   
+        $tipo = $this->politica_fichero->Politica_id($id.$id_user)['Tipo'];
+        $arg = $this->politica_fichero->Politica_id($id,$id_user)['Args'];
+        $Destino = $this->politica_fichero->Politica_id($id,$id_user)['Destino'];   
         
         switch ($tipo) {
             case "Extension":

@@ -20,7 +20,8 @@ class UploadController extends AbstractController {
      * @Route("/inicio/upload", name="upload")
      */
     public function index(FileUploader $uploader): Response {
-        $politicas = $uploader->ListaPoliticas();
+        $userlog = $this->getUser()->getId();
+        $politicas = $uploader->ListaPoliticas($userlog);
         return $this->render('upload/index.html.twig', [
                     'controller_name' => 'UploadController',
                     'politicas' => $politicas
@@ -39,7 +40,7 @@ class UploadController extends AbstractController {
         //Lista de conexiones del usuario actual
         $criteria = ['user' => $userlog];
         $conexiones = $con->findBy($criteria);
-        $alias = $politica->EleccionPolitica($id, $archivo, $conexiones);
+        $alias = $politica->EleccionPolitica($id, $archivo, $conexiones, $userlog);
         $criteria2 = ['alias' => $alias];
         $destino = $con->findBy($criteria2)[0]->getNombre();
 
@@ -56,6 +57,20 @@ class UploadController extends AbstractController {
         return $this->redirectToRoute('lista_archivos');
     }
 
+     /**
+     * @Route("/inicio/subir_politica", name="subir_politica")
+     */
+    public function subir_politica(Request $request, FileUploader $uploader) {
+
+        $archivo = $request->files->get('formFile');
+        
+        $userlog = $this->getUser()->getId();
+
+        $uploader->upload_politica($archivo, $userlog);
+      
+        return $this->redirectToRoute('upload');
+    }
+    
     /**
      * @Route("/inicio/bajar/{conexion}/{ruta}", name="bajar", requirements={"ruta"=".+"})
      */

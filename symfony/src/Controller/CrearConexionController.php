@@ -27,7 +27,7 @@ class CrearConexionController extends AbstractController {
         $criteria = ['user' => $userlog];
         $conexiones = $con->findBy($criteria);
         //Listar conexiones SFTP disponibles
-        //$disponibles2 = $client->sspd();
+        $disponibles2 = $client->sspd();
         
         //var_dump($disponibles2);
         //return new Response();
@@ -38,9 +38,8 @@ class CrearConexionController extends AbstractController {
             'DESCRIPTION' => ['friendlyName' => 'ubuntu 2014: mini dlna']];
         $disponibles = [$movil, $ordenador];
         //Comporar con las que ya esten en la BD
-        //$interseccion = $disponibles - $conexiones;
 	
-        $final=$varios->filtrado($disponibles,$criteria,$con);
+        $final=$varios->filtrado($disponibles2,$criteria,$con);
                 
         
         return $this->render('crear_conexion/index.html.twig', [

@@ -28,6 +28,7 @@ services:
             - ./drive/:/var/www/drive/
             - ./onedrive/:/var/www/onedrive/
             - ./rclone/archivos/:/var/www/symfony/public/uploads/
+            - ./rclone/politicas/:/var/www/symfony/public/politicas/
         networks:
             - symfony
     nginx:
@@ -37,8 +38,10 @@ services:
             dockerfile: build/nginx/Dockerfile
         volumes:
             - ./symfony/:/var/www/symfony/
+            - ./certs:/etc/nginx/certs/
         ports:
             - 8080:80
+            - 443:443
         networks:
             - symfony
     rclone:

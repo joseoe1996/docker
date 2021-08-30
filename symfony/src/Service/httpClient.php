@@ -8,8 +8,8 @@ use App\Service\driveToken;
 
 const NOMBRE = 'jose';
 const PASS = 'jose';
-const IP = '127.0.0.1';
-//const IP = 'rclone';
+//const IP = '127.0.0.1';
+const IP = 'rclone';
 const PUERTO = '5572';
 const DIR = NOMBRE .':'.PASS.'@'.IP . ':' . PUERTO;
 const CLIENT_ID_ONEDRIVE = '088e81a1-5274-44dd-bae8-fe657686b19f';
@@ -168,17 +168,17 @@ class httpClient {
 
     public function copiar_subir($origen, $destino, $nombre_final) {
         $operacion = '/operations/copyfile';
-        //$parametros = ['srcFs' => "/home/", 'srcRemote' => $origen, 'dstFs' => $destino . ':', 'dstRemote' => $nombre_final];
-        $parametros = ['srcFs' => "C:/", 'srcRemote' => $origen, 'dstFs' => $destino . ':', 'dstRemote' => $nombre_final];
+        $parametros = ['srcFs' => "/home/", 'srcRemote' => $origen, 'dstFs' => $destino . ':', 'dstRemote' => $nombre_final];
+        //$parametros = ['srcFs' => "C:/", 'srcRemote' => $origen, 'dstFs' => $destino . ':', 'dstRemote' => $nombre_final];
         $reponse = $this->POST($parametros, $operacion);
         return $reponse;
     }
 
     public function copiar_bajar($origen, $destino, $nombre_final) {
         $operacion = '/operations/copyfile';
-        /*$parametros = ['srcFs' => $origen . ':', 'srcRemote' => $nombre_final,
-		'dstFs' => "/home/", 'dstRemote' => $destino];*/
-        $parametros = ['srcFs' => $origen . ':', 'srcRemote' => $nombre_final, 'dstFs' => "C:/", 'dstRemote' => $destino];
+        $parametros = ['srcFs' => $origen . ':', 'srcRemote' => $nombre_final,
+		'dstFs' => "/home/", 'dstRemote' => $destino];
+        //$parametros = ['srcFs' => $origen . ':', 'srcRemote' => $nombre_final, 'dstFs' => "C:/", 'dstRemote' => $destino];
         $response = $this->POST($parametros, $operacion);
         return $response;
     }

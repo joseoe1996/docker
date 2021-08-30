@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-//require '/var/www/onedrive/vendor/autoload.php';
-require 'C:\xampp\htdocs\onedrive\vendor\autoload.php';
+require '/var/www/onedrive/vendor/autoload.php';
+//require 'C:\xampp\htdocs\onedrive\vendor\autoload.php';
 
 use TheNetworg\OAuth2\Client\Provider as Provider;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,7 +18,7 @@ class onedriveToken {
         $this->provider = new Provider\Azure([
             'clientId' => '088e81a1-5274-44dd-bae8-fe657686b19f',
             'clientSecret' => 'Ag4.cX~HE-x27aLO8W.9a~rZ77e_iqR3H_',
-            'redirectUri' => 'http://localhost:8000/inicio/lista_conexion/crear_onedrive',
+            'redirectUri' => 'http://localhost:8080/inicio/lista_conexion/crear_onedrive',
             //Optional
             'scopes' => ['openid'],
             //Optional

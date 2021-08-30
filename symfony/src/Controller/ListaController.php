@@ -63,7 +63,6 @@ class ListaController extends AbstractController {
      */
     public function borrarARCH(httpClient $client, string $ruta = "", string $conexion = "") {
 
-        // $ruta2 = preg_replace('/_/', '/', $ruta);
         $client->borrarARCH($conexion, $ruta);
         return $this->redirectToRoute('lista_archivos');
     }
@@ -73,7 +72,6 @@ class ListaController extends AbstractController {
      */
     public function borrarCARP(httpClient $client, string $ruta = "", string $conexion = "") {
 
-        // $ruta2 = preg_replace('/_/', '/', $ruta);
         $client->borrarCARP($conexion, $ruta);
         return $this->redirectToRoute('lista_archivos');
     }

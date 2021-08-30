@@ -46,8 +46,10 @@ class UploadController extends AbstractController {
         $destino = $con->findBy($criteria2)[0]->getNombre();
 
         $nombreFichero = $uploader->upload($archivo);
-        // $origen = $nombreFichero
-        $origen = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreFichero;
+        
+               
+         $origen = $nombreFichero;
+        //$origen = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreFichero;
 
         $response = $client->copiar_subir($origen, $destino, $nombreFichero);
 
@@ -83,8 +85,8 @@ class UploadController extends AbstractController {
 
         $archivo = preg_split("[/]", $ruta);
         $nombreArchivo = array_pop($archivo);
-        //$file = $nombreArchivo;
-        $file = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreArchivo;
+        $file = $nombreArchivo;
+        //$file = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreArchivo;
         $respuesta = $client->copiar_bajar($conexion, $file, $ruta);
         $criteria = ['nombre' => $conexion];
         $alias = $con->findBy($criteria)[0]->getAlias();

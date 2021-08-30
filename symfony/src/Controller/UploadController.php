@@ -54,10 +54,10 @@ class UploadController extends AbstractController {
         if ($response->getStatusCode() == 200) {
             $filesystem = new Filesystem();
             $filesystem->remove($uploader->getTargetDirectory() . $nombreFichero);
+            $BD = new BD($this->getDoctrine()->getManager());
+            $BD->C_historial($nombreFichero, $alias, 'subida', new \DateTime(), $this->getUser());
         }
 
-        $BD = new BD($this->getDoctrine()->getManager());
-        $BD->C_historial($nombreFichero, $alias, 'subida', new \DateTime(), $this->getUser());
 
         return $this->redirectToRoute('lista_archivos');
     }
@@ -85,23 +85,28 @@ class UploadController extends AbstractController {
         $nombreArchivo = array_pop($archivo);
         //$file = $nombreArchivo;
         $file = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreArchivo;
-        $client->copiar_bajar($conexion, $file, $ruta);
-
+        $respuesta = $client->copiar_bajar($conexion, $file, $ruta);
         $criteria = ['nombre' => $conexion];
         $alias = $con->findBy($criteria)[0]->getAlias();
-        $BD = new BD($this->getDoctrine()->getManager());
-        $BD->C_historial($nombreArchivo, $alias, 'bajada', new \DateTime(), $this->getUser());
+        $response = NULL;
 
-        $destino = $uploader->getTargetDirectory() . $nombreArchivo;
-        
-        $response = new BinaryFileResponse($destino);
+        if ($respuesta->getStatusCode() == 200) {
 
-        $disposition = HeaderUtils::makeDisposition(
-                        HeaderUtils::DISPOSITION_ATTACHMENT, $nombreArchivo
-        );
+            $destino = $uploader->getTargetDirectory() . $nombreArchivo;
 
-        $response->headers->set('Content-Disposition', $disposition);
-        $response->deleteFileAfterSend(true);
+            $response = new BinaryFileResponse($destino);
+
+            $disposition = HeaderUtils::makeDisposition(
+                            HeaderUtils::DISPOSITION_ATTACHMENT, $nombreArchivo
+            );
+
+            $response->headers->set('Content-Disposition', $disposition);
+            $response->deleteFileAfterSend(true);
+            
+            $BD = new BD($this->getDoctrine()->getManager());
+            $BD->C_historial($nombreArchivo, $alias, 'bajada', new \DateTime(), $this->getUser());
+            
+        }
         return $response;
     }
 

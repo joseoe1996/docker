@@ -32,8 +32,9 @@ class ListaController extends AbstractController {
             $conexiones_BD = $conerepo->findBy($criteria);
         }
         foreach ($conexiones_BD as $array) {
-            
+           
             $archivos_asociados = $cliente->lista($array->getNombre(), $final);
+          
             $separados = $cliente->separar($archivos_asociados);
             $carpetas = $separados['carpeta'];
             $archivos = $separados['archivos'];

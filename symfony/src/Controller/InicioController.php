@@ -6,16 +6,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InicioController extends AbstractController
-{
+class InicioController extends AbstractController {
+
     /**
      * @Route("/inicio", name="inicio")
      */
-    public function index(): Response
-    {
+    public function index(): Response {
+
+        $userlog = $this->getUser();
         
         return $this->render('inicio.html.twig', [
-            'controller_name' => 'InicioController',
+                    'controller_name' => 'InicioController',
         ]);
     }
+
 }

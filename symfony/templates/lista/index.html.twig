@@ -5,7 +5,7 @@
 
 {%block navbar %}
 
-    {% if lista|length > 1 %}
+    {% if lista|length > 1 or lista is empty %}
         {% set conexion = "" %}
         {% set ruta = "" %}
         {% set nombre = "" %}
@@ -21,7 +21,7 @@
             {% set ruta = lista[conexion]['carpetas']|first|split('/',-1)|join('/')%}
         {% endif %}
     {% endif %}
-   
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="{{path('lista_archivos')}}">Listado</a>
         <a class="navbar-brand" href="{{path('upload')}}">Subir</a>

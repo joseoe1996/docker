@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\BD;
 use App\Service\Varios;
 
-const SERVER_MOVIL = "CyverLinkJava";
+const SERVER_MOVIL = "CyberLinkJava";
 const SERVER_ORDE = "DLNADOC";
 
 class CrearConexionController extends AbstractController {

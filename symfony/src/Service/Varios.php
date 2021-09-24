@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Service\BD;
+
 class Varios {
 
     public function filtrado($ssdp, $criterio, $busqueda) {
@@ -10,18 +12,18 @@ class Varios {
 
         foreach ($ssdp as $valor) {
             $IP = $valor['IP'];
-            $nombreBD = preg_replace('[\.]', '_', $IP).'_alias';
+            $nombreBD = preg_replace('[\.]', '_', $IP) . '_alias';
             $criterio['nombre'] = $nombreBD;
             $conexiones = $busqueda->findBy($criterio);
             //No se encunetra en la BD
-               if(!$conexiones){
-                   $final[]=$valor;
-               }
+            if (!$conexiones) {
+                $final[] = $valor;
+            }
             array_pop($criterio);
         }
         return $final;
     }
-    
+
     public function busqueda(string $buscar, array $lista) {
 
         foreach ($lista as $conexion => $value) {
@@ -38,5 +40,4 @@ class Varios {
         }
         return $lista;
     }
-
 }

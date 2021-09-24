@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Service\BD;
 use App\Service\Varios;
 
-const SERVER_MOVIL = "CyverLinkJava";
+const SERVER_MOVIL = "CyberLinkJava";
 const SERVER_ORDE = "DLNADOC";
 
 class CrearConexionController extends AbstractController {
@@ -43,7 +43,7 @@ class CrearConexionController extends AbstractController {
                 
         
         return $this->render('crear_conexion/index.html.twig', [
-                    'controller_name' => 'CrearConexionController',
+                    'controller_name' => 'Conexiones Disponibles',
                     'conexiones' => $conexiones,
                     'sftp' => $final
         ]);
@@ -80,7 +80,7 @@ class CrearConexionController extends AbstractController {
         $IP = $request->get('IP');
         $server = $request->get('SERVER');
 
-        if (preg_match('*' . strtolower($server) . '*', strtolower(SERVER_MOVIL))) {
+        if (preg_match('*' . strtolower(SERVER_MOVIL) . '*', strtolower($server))) {
             $tipo = 'sftp_movil';
             $name = preg_replace('[\.]', '_', $IP);
             $client->alias($name . '_alias', $name . ':/storage/emulated/0');

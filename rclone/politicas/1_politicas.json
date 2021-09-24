@@ -11,7 +11,7 @@
                 "Nombre":"Arch mayor que..",
                 "Tipo":"Tamaño",
                 "Args":"< 50000",
-                "Destino":"Funciona"
+                "Destino":"reescribir"
             },
             "3": {
                 "Nombre":"Lo mando a..",

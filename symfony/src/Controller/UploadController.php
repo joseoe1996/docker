@@ -24,7 +24,7 @@ class UploadController extends AbstractController {
         $userlog = $this->getUser()->getId();
         $politicas = $uploader->ListaPoliticas($userlog);
         return $this->render('upload/index.html.twig', [
-                    'controller_name' => 'UploadController',
+                    'controller_name' => 'Subida de ficheros y politicas',
                     'politicas' => $politicas
         ]);
     }

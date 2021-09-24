@@ -16,7 +16,7 @@ const CLIENT_ID_ONEDRIVE = '088e81a1-5274-44dd-bae8-fe657686b19f';
 const SECRETO_ONEDRIVE = 'Ag4.cX~HE-x27aLO8W.9a~rZ77e_iqR3H_';
 const CLIENTE_ID_DRIVE = '673961889608-7bhejsqnglluor9prgrb03e13g3s18mg.apps.googleusercontent.com';
 const SECRETO_DRIVE = 'tzXjmMQkz1qZ90FNNDtl2XKy';
-const IP_PROYECTO_SSPD='192.168.0.108:8000';
+const IP_PROYECTO_SSPD='172.17.0.1:8000';
 
 class httpClient {
 

@@ -19,7 +19,7 @@ class EstadisticasController extends AbstractController {
         $criteria = ['user' => $this->getUser()];
         $historial = $historialRepo->findBy($criteria);
         return $this->render('estadisticas/index.html.twig', [
-                    'controller_name' => 'EstadisticasController',
+                    'controller_name' => 'Estadisticas',
                     'conexion' => $conexion,
                     'about' => json_decode($about),
                     'historial' => $historial

@@ -13,9 +13,9 @@ class InicioController extends AbstractController
      */
     public function index(): Response
     {
-        
+        $userlog = $this->getUser()->getUsername();
         return $this->render('inicio.html.twig', [
-            'controller_name' => 'InicioController',
+            'controller_name' => 'Bienvenido '. $userlog,
         ]);
     }
 }

@@ -52,7 +52,7 @@ class ListaController extends AbstractController {
         }
 
         return $this->render('lista/index.html.twig', [
-                    'controller_name' => 'ListaController',
+                    'controller_name' => 'Lista de archivos de cada conexion',
                     'lista' => $lista,
                     'alias' => $alias
         ]);

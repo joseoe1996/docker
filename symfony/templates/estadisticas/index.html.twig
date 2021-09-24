@@ -9,7 +9,7 @@
     </style>
 
     <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
+        <h1>{{ controller_name }}</h1>
         <h2>Uso del espacio en MB</h2>
         <table class="table">
             <thead>
@@ -44,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for hist in historial %}
+                {% for hist in historial|reverse %}
                     <tr>
                         <td>{{hist.nombre}}</td>
                         <td>{{hist.ubicacion}}</td>

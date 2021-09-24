@@ -14,7 +14,7 @@ class PaginaInicioController extends AbstractController
     public function index(): Response
     {
         return $this->render('pagina_inicio/index.html.twig', [
-            'controller_name' => 'PaginaInicioController',
+            'controller_name' => 'Inicio de la Aplicación',
         ]);
     }
 }

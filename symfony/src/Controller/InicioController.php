@@ -10,22 +10,15 @@ class InicioController extends AbstractController {
 
     /**
      * @Route("/inicio", name="inicio")
+     Inicio del usuario 
      */
-<<<<<<< HEAD
     public function index(): Response
     {
+    	//Obtenemos su nombre
         $userlog = $this->getUser()->getUsername();
         return $this->render('inicio.html.twig', [
             'controller_name' => 'Bienvenido '. $userlog,
-=======
-    public function index(): Response {
-
-        $userlog = $this->getUser();
-        
-        return $this->render('inicio.html.twig', [
-                    'controller_name' => 'InicioController',
->>>>>>> 5a8e91f5a1154c3b33e63c008af893c3d172c406
-        ]);
+	]);
     }
 
 }

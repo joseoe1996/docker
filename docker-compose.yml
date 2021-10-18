@@ -47,7 +47,6 @@ services:
     rclone:
         container_name: rclone
         image: rclone/rclone
-        restart: always
         command: rcd --rc-serve --rc-addr :5572 --rc-user jose --rc-pass jose
         ports:
             - 5572:5572

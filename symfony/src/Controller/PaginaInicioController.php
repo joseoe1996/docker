@@ -10,6 +10,7 @@ class PaginaInicioController extends AbstractController
 {
     /**
      * @Route("/", name="pagina_inicio")
+     Pagina inicial de la aplicacion
      */
     public function index(): Response
     {

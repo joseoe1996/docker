@@ -14,11 +14,11 @@
         {% set tipo = lista|keys[0] %}
 
         {% if lista[conexion]['carpetas']|keys|length == 0 %}
-            {% set nombre = lista[conexion]['archivos']|keys[0] %}
-            {% set ruta = lista[conexion]['archivos']|first|split('/',-1)|join('/')%}
+            {% set nombre = lista[conexion]['archivos']|keys[0]|default('') %}
+            {% set ruta = lista[conexion]['archivos']|first|split('/',-1)|join('/')|default('')%}
         {% else %}
-            {% set nombre = lista[conexion]['carpetas']|keys[0] %}
-            {% set ruta = lista[conexion]['carpetas']|first|split('/',-1)|join('/')%}
+            {% set nombre = lista[conexion]['carpetas']|keys[0]|default('') %}
+            {% set ruta = lista[conexion]['carpetas']|first|split('/',-1)|join('/')|default('')%}
         {% endif %}
     {% endif %}
 

@@ -12,7 +12,7 @@ class Varios {
 
         foreach ($ssdp as $valor) {
             $IP = $valor['IP'];
-            $nombreBD = preg_replace('[\.]', '_', $IP) . '_alias';
+            $nombreBD = preg_replace('[\.]', '_', $IP);
             $criterio['nombre'] = $nombreBD;
             $conexiones = $busqueda->findBy($criterio);
             //No se encunetra en la BD

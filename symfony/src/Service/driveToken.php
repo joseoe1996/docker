@@ -3,11 +3,11 @@
 namespace App\Service;
 
 require '/var/www/drive/vendor/autoload.php';
-//require 'C:\xampp\htdocs\drive\vendor\autoload.php';
 
 use League\OAuth2\Client\Provider\Google;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
+//Clase para obtener el token de drive
+//Y ajustarlo al formato de rclone
 class driveToken {
 
     protected $provider;

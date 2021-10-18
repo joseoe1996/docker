@@ -2,25 +2,25 @@
     "politicas": {
         "id": {
             "1": {
-                "Nombre":"Las extensiones van...",
+                "Nombre":"1",
                 "Tipo":"Extension",
                 "Args":"jpg",
                 "Destino":"onedrive"
             },
             "2": {
-                "Nombre":"Arch mayor que..",
+                "Nombre":"2",
                 "Tipo":"Tamaño",
                 "Args":"< 50000",
-                "Destino":"reescribir"
+                "Destino":"Funciona"
             },
             "3": {
-                "Nombre":"Lo mando a..",
+                "Nombre":"3",
                 "Tipo":"Personal",
                  "Args":"",
                 "Destino":"Funciona"
             },
             "4": {
-                "Nombre":"Si el nombre contiene",
+                "Nombre":"4",
                 "Tipo":"Patron",
                 "Args":"/.*a.*/",
                 "Destino":"Funciona"

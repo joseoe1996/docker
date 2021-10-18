@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\Conexiones;
 use App\Entity\Historial;
-
+//Clase para todo el manejo de la BD
 class BD {
 
     private $em;
@@ -30,7 +30,7 @@ class BD {
             throw $e;
         }
     }
-    
+    //Borrar conexiones
     public function B_conexion(Conexiones $conexion) {
         try {
             $this->em->remove($conexion);
@@ -40,9 +40,8 @@ class BD {
             throw $e;
         }
     }
-    
+    //Editar conexiones
     public function E_conexion(Conexiones $conexion, string $alias){
-        
         $conexion->setAlias($alias);
         try {
             $this->em->persist($conexion);
@@ -52,7 +51,7 @@ class BD {
             throw $e;
         }
     }
-    
+    //Añadir al historial
     public function C_historial(string $nombre, string $ubicacion, string $tipo, \DateTime $fecha, $user) {
         
         $historial = new Historial();

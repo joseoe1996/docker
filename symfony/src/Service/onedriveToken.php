@@ -3,11 +3,11 @@
 namespace App\Service;
 
 require '/var/www/onedrive/vendor/autoload.php';
-//require 'C:\xampp\htdocs\onedrive\vendor\autoload.php';
 
 use TheNetworg\OAuth2\Client\Provider as Provider;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-
+//Clase para la obtencion del token de onedrive
+//Y para su modificacion para Rclone
 class onedriveToken {
 
     protected $provider;
@@ -27,8 +27,6 @@ class onedriveToken {
         // Set to use v2 API, skip the line or set the value to Azure::ENDPOINT_VERSION_1_0 if willing to use v1 API
         $this->provider->defaultEndPointVersion = Provider\Azure::ENDPOINT_VERSION_2_0;
 
-        //$baseGraphUri = $this->provider->getRootMicrosoftGraphUri(null);
-        //$this->provider->scope = 'openid profile email offline_access ' . $baseGraphUri . '/User.Read';
         $this->provider->scope = 'openid profile email offline_access ';
         $this->provider->scope .= 'Files.Read Files.ReadWrite Files.Read.All Files.ReadWrite.All User.Read';
     }

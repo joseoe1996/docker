@@ -8,7 +8,6 @@ use App\Service\driveToken;
 
 const NOMBRE = 'jose';
 const PASS = 'jose';
-//const IP = '127.0.0.1';
 const IP = 'rclone';
 const PUERTO = '5572';
 const DIR = NOMBRE .':'.PASS.'@'.IP . ':' . PUERTO;
@@ -17,7 +16,7 @@ const SECRETO_ONEDRIVE = 'Ag4.cX~HE-x27aLO8W.9a~rZ77e_iqR3H_';
 const CLIENTE_ID_DRIVE = '673961889608-7bhejsqnglluor9prgrb03e13g3s18mg.apps.googleusercontent.com';
 const SECRETO_DRIVE = 'tzXjmMQkz1qZ90FNNDtl2XKy';
 const IP_PROYECTO_SSPD='172.17.0.1:8000';
-
+//Clase para el manejo por HTTP de la API rclone
 class httpClient {
 
     private $client;
@@ -34,7 +33,7 @@ class httpClient {
         ]);
         return $response;
     }
-
+	//Peticion a la api SSDP
     public function sspd() {
         $response = $this->client->request('POST', 'http://' . IP_PROYECTO_SSPD);
         return $response->toArray();
@@ -169,7 +168,6 @@ class httpClient {
     public function copiar_subir($origen, $destino, $nombre_final) {
         $operacion = '/operations/copyfile';
         $parametros = ['srcFs' => "/home/", 'srcRemote' => $origen, 'dstFs' => $destino . ':', 'dstRemote' => $nombre_final];
-        //$parametros = ['srcFs' => "C:/", 'srcRemote' => $origen, 'dstFs' => $destino . ':', 'dstRemote' => $nombre_final];
         $reponse = $this->POST($parametros, $operacion);
         return $reponse;
     }
@@ -178,7 +176,6 @@ class httpClient {
         $operacion = '/operations/copyfile';
         $parametros = ['srcFs' => $origen . ':', 'srcRemote' => $nombre_final,
 		'dstFs' => "/home/", 'dstRemote' => $destino];
-        //$parametros = ['srcFs' => $origen . ':', 'srcRemote' => $nombre_final, 'dstFs' => "C:/", 'dstRemote' => $destino];
         $response = $this->POST($parametros, $operacion);
         return $response;
     }
@@ -210,13 +207,6 @@ class httpClient {
         ];
         //Creamos la conexion con RCLONE
         $this->POST($parametros, $operacion);
-    }
-
-    public function size(string $conexion) {
-        $operacion = '/operations/size';
-        $parametros = ['fs' => $conexion . ':'];
-        $reponse = $this->POST($parametros, $operacion);
-        return $reponse->toArray()['bytes'];
     }
 
 }

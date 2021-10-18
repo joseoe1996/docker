@@ -5,7 +5,8 @@ namespace App\Service;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
+//Clase para la subida de archivos
+//Y definicion de algunas politicas
 class FileUploader {
 
     private $targetDirectory;
@@ -44,7 +45,7 @@ class FileUploader {
 
         return $fileName;
     }
-
+	//Uno de los tipos de politicas
     public function extension(UploadedFile $file, string $extension) {
         $arch_extension = $file->guessExtension();
         if ($arch_extension == $extension) {
@@ -53,7 +54,7 @@ class FileUploader {
             return FALSE;
         }
     }
-
+	//Uno de los tipos de politicas
     public function tamaño(UploadedFile $file, $args) {
         $arch_tam = filesize($file);
         $signo = preg_split('/ /', $args)[0];
@@ -75,21 +76,20 @@ class FileUploader {
         }
         return $res;
     }
-
+	//Uno de los tipos de politicas
     public function ContieneNombre(UploadedFile $file, string $patron) {
         $arch_nombre = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        var_dump($patron);
         if (preg_match($patron, $arch_nombre)) {
             return TRUE;
         } else {
             return FALSE;
         }
     }
-
+	
     public function getTargetDirectory() {
         return $this->targetDirectory;
     }
-
+	//Listar las politicas del usuario
     public function ListaPoliticas(int $id_user) {
         $nombre = $id_user . '_politicas.json';
         try {
@@ -100,13 +100,12 @@ class FileUploader {
             return [];
         }
     }
-
+	//Listar los argumentos de la politica selecionada
     public function Politica_id(int $id, int $id_user) {
-
         if ($id == 0) {
             return ['Tipo' => '', 'Args' => '', 'Destino' => ''];
         }
-        $nombre = $id_user . 'politicas.json';
+        $nombre = $id_user . '_politicas.json';
         $politicas = new UploadedFile($this->dirPoliticas . $nombre, $nombre);
         $json = json_decode($politicas->getContent());
         return ['Tipo' => $json->politicas->id->{$id}->Tipo,

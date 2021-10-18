@@ -23,11 +23,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{about.free}}</td>
+                    <td>{{about.free|default('No definido')}}</td>
                     <td>{{about.other|default('No definido')}}</td>
-                    <td>{{about.total}}</td>
-                    <td>{{about.trashed}}</td>
-                    <td>{{about.used}}</td>
+                    <td>{{about.total|default('No definido')}}</td>
+                    <td>{{about.trashed|default('No definido')}}</td>
+                    <td>{{about.used|default('No definido')}}</td>
                 </tr>
 
             </tbody>

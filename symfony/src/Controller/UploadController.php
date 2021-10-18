@@ -19,6 +19,7 @@ class UploadController extends AbstractController {
 
     /**
      * @Route("/inicio/upload", name="upload")
+     Devolvemmos las politicas del usuario activo
      */
     public function index(FileUploader $uploader): Response {
         $userlog = $this->getUser()->getId();
@@ -31,28 +32,36 @@ class UploadController extends AbstractController {
 
     /**
      * @Route("/inicio/subir", name="subir")
+     Subida de archivos
      */
     public function subir(Request $request, FileUploader $uploader, httpClient $client, ConexionesRepository $con, politicas $politica) {
-
+	//Archivo subido al formulario
         $archivo = $request->files->get('formFile');
+        //Politica a aplicar
         $id = $request->get('politica');
 
         $userlog = $this->getUser()->getId();
         //Lista de conexiones del usuario actual
         $criteria = ['user' => $userlog];
         $conexiones = $con->findBy($criteria);
+        //Segun la politica seleccionada se devuelve a donde se envia
         $alias = $politica->EleccionPolitica($id, $archivo, $conexiones, $userlog);
-        $criteria2 = ['alias' => $alias];
+        $criteria2 = ['alias' => $alias,'user'=>$this->getUser()];
+        $destino=null;
+        if(empty($con->findBy($criteria2))){
+        return $this->render('noEncontrado.html.twig', [
+                    'titulo' => 'Alias no encontrado'
+        ]);
+        }
         $destino = $con->findBy($criteria2)[0]->getNombre();
-
+	
+	//Se sube el archivo
         $nombreFichero = $uploader->upload($archivo);
-        
-               
-         $origen = $nombreFichero;
-        //$origen = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreFichero;
+            
+        $origen = $nombreFichero;
 
         $response = $client->copiar_subir($origen, $destino, $nombreFichero);
-
+	//Si la respuesta es correcta se borra de la aplicacion, que se ha usado como intermediaria
         if ($response->getStatusCode() == 200) {
             $filesystem = new Filesystem();
             $filesystem->remove($uploader->getTargetDirectory() . $nombreFichero);
@@ -86,14 +95,14 @@ class UploadController extends AbstractController {
         $archivo = preg_split("[/]", $ruta);
         $nombreArchivo = array_pop($archivo);
         $file = $nombreArchivo;
-        //$file = 'Users/josealonso/Desktop/docker2/symfony/public/uploads/' . $nombreArchivo;
+        //Nos traemos el archivo de rclone a nuestra aplicacion
         $respuesta = $client->copiar_bajar($conexion, $file, $ruta);
-        $criteria = ['nombre' => $conexion];
+        $criteria = ['nombre' => $conexion,'user'=>$this->getUser()];
         $alias = $con->findBy($criteria)[0]->getAlias();
         $response = NULL;
-
+	//Si la respuesta es satisfactoria
         if ($respuesta->getStatusCode() == 200) {
-
+	//Configuramos donde se encuentra el archivo
             $destino = $uploader->getTargetDirectory() . $nombreArchivo;
 
             $response = new BinaryFileResponse($destino);
@@ -103,9 +112,11 @@ class UploadController extends AbstractController {
             );
 
             $response->headers->set('Content-Disposition', $disposition);
+            //Se borra despues de la descarga
             $response->deleteFileAfterSend(true);
             
             $BD = new BD($this->getDoctrine()->getManager());
+            //Lo incluimos en el historial
             $BD->C_historial($nombreArchivo, $alias, 'bajada', new \DateTime(), $this->getUser());
             
         }
